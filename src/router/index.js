@@ -41,17 +41,24 @@ export const asyncRouterMap = [
     redirect: '/pms/product',
     name: 'pms',
     meta: {title: '商品', icon: 'product'},
-    children: [{
-      path: 'product',
-      name: 'product',
-      component: () => import('@/views/pms/product/index'),
-      meta: {title: '商品列表', icon: 'product-list'}
-    },
+    children: [
+      {
+        path: 'product',
+        name: 'product',
+        component: () => import('@/views/pms/product/index'),
+        meta: {title: '商品列表', icon: 'product-list'}
+      },
       {
         path: 'addProduct',
         name: 'addProduct',
         component: () => import('@/views/pms/product/add'),
         meta: {title: '添加商品', icon: 'product-add'}
+      },
+      {
+        path: 'executeExcel',
+        name: 'executeExcel',
+        component: () => import('@/views/pms/excel/index'),
+        meta: {title: '操作表格', icon: 'product-add'}
       },
       {
         path: 'updateProduct',
