@@ -1,23 +1,29 @@
 <template>
-  <el-form>
-    <el-form-item>
-      <el-upload class="upload-demo" ref="upload" action="#" :http-request="importFile"
-        :before-upload="beforeAvatarUpload" :auto-upload="false" :limit="1" accept=".xls,.xlsx,.csv"
-        :on-exceed="handleExceed">
-        <el-button slot="trigger" type="primary" size="small">选取文件</el-button>
-        <el-button :loading="dataForms.loading" style="margin-left: 10px" type="success" @click="fileSubmit"
-          size="small" v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="正在执行..."
-          element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">上传</el-button>
-        <!-- <div slot="tip" class="el-upload__tip">只能上传Excel文件</div> -->
-        <el-button type="primary" @click="cancleUpload" size="small">取消</el-button>
-      </el-upload>
-    </el-form-item>
-  </el-form>
+  <div class="app-container">
+    <el-form>
+      <el-form-item>
+        <el-upload class="upload-demo" ref="upload" action="#" :http-request="importFile"
+          :before-upload="beforeAvatarUpload" :auto-upload="false" :limit="1" accept=".xls,.xlsx,.csv"
+          :on-exceed="handleExceed">
+          <el-button slot="trigger" type="primary" size="small">选取文件</el-button>
+          <el-button :loading="dataForms.loading" style="margin-left: 10px" type="success" @click="fileSubmit"
+            size="small" v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="正在执行..."
+            element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">上传</el-button>
+          <!-- <div slot="tip" class="el-upload__tip">只能上传Excel文件</div> -->
+          <el-button type="primary" @click="cancleUpload" size="small">取消</el-button>
+        </el-upload>
+      </el-form-item>
+    </el-form>
+    <!--导出用户信息excel表格-->
+    <download-excel class="export-excel-wrapper" :data="excel_data" :fields="excel_fields" :name="excel_name">
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+  </div>
 </template>
  
 <script>
 import XLSX from "xlsx";
-import {executeExcel} from '@/api/brand'//调用后台的接口，封装在此
+import { executeExcel } from '@/api/brand'//调用后台的接口，封装在此
 import Vue from "vue";
 
 export default {
@@ -34,6 +40,37 @@ export default {
       fullscreenLoading: false, // 加载中
       desc: "",
       loadingText: "正在执行...",
+      //导出excel
+      excel_name:"示例excel.xls",
+      excel_fields: {
+        "姓名": "name",    //常规字段
+        "用户名": "username",
+        "所属组织": "organization",
+        "权限": "auth",
+      },
+      excel_data: [
+        //写死，后续可通过接口进行传值
+        {
+          name: '汤姆',
+          username: 'admin1',
+          organization: '地球村',
+          auth: '超级管理员'
+        },
+        {
+          name: '杰米',
+          username: 'admin2',
+          organization: '地球村',
+          auth: '超级管理员'
+        }
+      ],
+      json_meta: [
+        [
+          {
+            " key ": " charset ",
+            " value ": " utf- 8 "
+          }
+        ]
+      ],
     };
   },
   methods: {
@@ -111,7 +148,7 @@ export default {
           this.$message({
             message: '提交成功',
             type: 'success',
-            duration:1000
+            duration: 1000
           });
         });
         this.loadingText = "";

@@ -15,9 +15,12 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import JsonExcel from 'vue-json-excel'
 
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
+
+Vue.component('downloadExcel', JsonExcel)
 
 Vue.config.productionTip = false
 
