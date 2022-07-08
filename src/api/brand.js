@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function executeExcel(data) {
   return request({
-    url:'/brand/executeExcel',
+    url:'/branchData/insertBranchData',
     method:'post',
     data:data
   })

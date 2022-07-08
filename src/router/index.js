@@ -136,6 +136,27 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/excel',
+    component: Layout,
+    redirect: '/excel/showBrand',
+    name: 'excel',
+    meta: {title: '表格', icon: 'product'},
+    children: [
+      {
+        path: 'showBrand',
+        name: 'showBrand',
+        component: () => import('@/views/excel/showBrand/index'),
+        meta: {title: '商品列表', icon: 'product-list'}
+      },
+      {
+        path: 'test',
+        name: 'test',
+        component: () => import('@/views/excel/showBrand/index'),
+        meta: {title: '商品列表', icon: 'product-list'}
+      }
+    ]
+  },
   // {
   //   path: '/oms',
   //   component: Layout,
