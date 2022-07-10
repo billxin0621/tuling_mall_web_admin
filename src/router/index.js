@@ -55,12 +55,6 @@ export const asyncRouterMap = [
         meta: {title: '添加商品', icon: 'product-add'}
       },
       {
-        path: 'executeExcel',
-        name: 'executeExcel',
-        component: () => import('@/views/pms/excel/index'),
-        meta: {title: '操作表格', icon: 'product-add'}
-      },
-      {
         path: 'updateProduct',
         name: 'updateProduct',
         component: () => import('@/views/pms/product/update'),
@@ -147,13 +141,13 @@ export const asyncRouterMap = [
         path: 'showBrand',
         name: 'showBrand',
         component: () => import('@/views/excel/showBrand/index'),
-        meta: {title: '商品列表', icon: 'product-list'}
+        meta: {title: '表格数据展示', icon: 'product-list'}
       },
       {
-        path: 'test',
-        name: 'test',
-        component: () => import('@/views/excel/showBrand/index'),
-        meta: {title: '商品列表', icon: 'product-list'}
+        path: 'uploadExcel',
+        name: 'uploadExcel',
+        component: () => import('@/views/excel/showBrand/uploadExcel'),
+        meta: {title: '表格数据上传', icon: 'order-setting'}
       }
     ]
   },

@@ -6,6 +6,13 @@ export function executeExcel(data) {
     data:data
   })
 }
+export function insertBranchData(data) {
+  return request({
+    url:'/branchData/insertBranchData',
+    method:'post',
+    data:data
+  })
+}
 export function fetchList(params) {
   return request({
     url:'/branchData/list',

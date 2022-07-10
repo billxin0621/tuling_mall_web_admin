@@ -15,15 +15,15 @@
       </el-form-item>
     </el-form>
     <!--导出用户信息excel表格-->
-    <download-excel class="export-excel-wrapper" :data="excel_data" :fields="excel_fields" :name="excel_name">
+    <!--<download-excel class="export-excel-wrapper" :data="excel_data" :fields="excel_fields" :name="excel_name">
       <el-button type="primary" size="small">导出EXCEL</el-button>
-    </download-excel>
+    </download-excel>-->
   </div>
 </template>
  
 <script>
 import XLSX from "xlsx";
-import { executeExcel } from '@/api/brand'//调用后台的接口，封装在此
+import { insertBranchData } from '@/api/excel'//调用后台的接口，封装在此
 import Vue from "vue";
 
 export default {
@@ -144,7 +144,7 @@ export default {
         }
         this.loadingText = "正在上传...";
         //请求后台
-        executeExcel(persons).then(response => {
+        insertBranchData(persons).then(response => {
           this.$message({
             message: '提交成功',
             type: 'success',
