@@ -32,7 +32,7 @@
             <el-table ref="brandTable" :data="list" style="width: 100%" @selection-change="handleSelectionChange"
                 v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <el-table-column label="编号" width="100" align="center">
+                <el-table-column label="编号" width="100" v-if="false" align="center">
                     <template slot-scope="scope">{{ scope.row.id }}</template>
                 </el-table-column>
                 <el-table-column label="日期"  width="100" align="center">
@@ -40,6 +40,9 @@
                 </el-table-column>
                 <el-table-column label="部门" width="100" align="center">
                     <template slot-scope="scope">{{ scope.row.branchName }}</template>
+                </el-table-column>
+                <el-table-column label="数据类型" width="100" align="center">
+                    <template slot-scope="scope">{{ scope.row.dataType }}</template>
                 </el-table-column>
                 <el-table-column label="用户" width="100" align="center">
                     <template slot-scope="scope">{{ scope.row.user }}</template>
@@ -112,7 +115,7 @@
     </div>
 </template>
 <script>
-import { fetchList, updateShowStatus, updateFactoryStatus, deleteBrand } from '@/api/excel'
+import { fetchList } from '@/api/excel'
 
 export default {
     name: 'brandList',
@@ -176,7 +179,7 @@ export default {
             this.listQueryExcel.name = this.listQuery.name;
             this.listQueryExcel.dealPinTotal = this.listQuery.dealPinTotal;
             fetchList(this.listQueryExcel).then(response => {
-                this.excel_fields = {"日期": "date","部门": "branchName","用户": "user","用户同比": "userTongbi",
+                this.excel_fields = {"日期": "date","部门": "branchName","数据类型": "dataType","用户": "user","用户同比": "userTongbi",
                                      "母婴大盘用户数": "dapan","部门用户占比母婴大盘": "branchDapanZhanbi",
                                      "成交金额": "chengjiaojine","成交金额同比": "chengjiaojineTongbi",
                                      "销量": "xiaoliang","订单": "dingdan","ARPU": "arpu","ARPU同比": "arpuTongbi",
