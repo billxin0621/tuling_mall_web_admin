@@ -53,7 +53,7 @@
                 </el-table-column>
                 <el-table-column label="用户同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.userTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.userTongbi < '0' ? 'color-danger':''" ><!--自定义颜色，颜色维护在src\styles\index.scss-->
                             {{ scope.row.userTongbi }}
                         </div>
                     </template>
