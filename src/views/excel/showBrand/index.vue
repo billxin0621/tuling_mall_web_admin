@@ -52,61 +52,137 @@
                     <template slot-scope="scope">{{ scope.row.user }}</template>
                 </el-table-column>
                 <el-table-column label="用户同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.userTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.userTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.userTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="母婴大盘用户数" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.dapan }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.dapan < '0' ? 'color-danger':''" >
+                            {{ scope.row.dapan }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="部门用户占比母婴大盘" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.branchDapanZhanbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.branchDapanZhanbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.branchDapanZhanbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="成交金额" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.chengjiaojine }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.chengjiaojine < '0' ? 'color-danger':''" >
+                            {{ scope.row.chengjiaojine }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="成交金额同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.chengjiaojineTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.chengjiaojineTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.chengjiaojineTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="销量" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.xiaoliang }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.xiaoliang < '0' ? 'color-danger':''" >
+                            {{ scope.row.xiaoliang }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="订单" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.dingdan }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.dingdan < '0' ? 'color-danger':''" >
+                            {{ scope.row.dingdan }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="ARPU" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.arpu }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.arpu < '0' ? 'color-danger':''" >
+                            {{ scope.row.arpu }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="ARPU同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.arpuTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.arpuTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.arpuTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="客单价" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.kedanjia }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.kedanjia < '0' ? 'color-danger':''" >
+                            {{ scope.row.kedanjia }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="客单价同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.kedanjiaTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.kedanjiaTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.kedanjiaTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="购买频次" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.goumaipinci }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.goumaipinci < '0' ? 'color-danger':''" >
+                            {{ scope.row.goumaipinci }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="购买频次同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.goumaipinciTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.goumaipinciTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.goumaipinciTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="件单价" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.jiandanjia }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.jiandanjia < '0' ? 'color-danger':''" >
+                            {{ scope.row.jiandanjia }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="件单价同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.jiandanjiaTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.jiandanjiaTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.jiandanjiaTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="人均销量" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.renjunxiaoliang }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.renjunxiaoliang < '0' ? 'color-danger':''" >
+                            {{ scope.row.renjunxiaoliang }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="人均销量同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.renjunxiaoliangTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.renjunxiaoliangTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.renjunxiaoliangTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="人均件数" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.renjunjianshu }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.renjunjianshu < '0' ? 'color-danger':''" >
+                            {{ scope.row.renjunjianshu }}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="人均件数同比" width="100" align="center">
-                    <template slot-scope="scope">{{ scope.row.renjunjianshuTongbi }}</template>
+                    <template slot-scope="scope">
+                        <div :class="scope.row.renjunjianshuTongbi < '0' ? 'color-danger':''" >
+                            {{ scope.row.renjunjianshuTongbi }}
+                        </div>
+                    </template>
                 </el-table-column>
             </el-table>
         </div>
