@@ -10,11 +10,15 @@
             </div>
             <div style="margin-top: 15px">
                 <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-                    <el-form-item label="名称：">
-                        <el-input style="width: 203px" v-model="listQuery.name" placeholder="名称/关键字"></el-input>
+                    <el-form-item label="部门名称：">
+                        <el-input style="width: 203px" v-model="listQuery.branchName" placeholder="部门名称/关键字"></el-input>
                     </el-form-item>
-                    <el-form-item label="总用户：">
-                        <el-input style="width: 203px" v-model="listQuery.dealPinTotal" placeholder="总用户/关键字">
+                    <el-form-item label="数据类型：">
+                        <el-input style="width: 203px" v-model="listQuery.dataType" placeholder="数据类型/关键字">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="模糊查询：">
+                        <el-input style="width: 203px" v-model="listQuery.anyMatch" placeholder="模糊条件/关键字">
                         </el-input>
                     </el-form-item>
                 </el-form>
@@ -38,7 +42,7 @@
                 <el-table-column label="日期"  width="100" align="center">
                     <template slot-scope="scope">{{ scope.row.date }}</template>
                 </el-table-column>
-                <el-table-column label="部门" width="100" align="center">
+                <el-table-column :label="tablename" width="100" align="center">
                     <template slot-scope="scope">{{ scope.row.branchName }}</template>
                 </el-table-column>
                 <el-table-column label="数据类型" width="100" align="center">
@@ -133,14 +137,16 @@ export default {
             ],
             operateType: null,
             listQuery: {//查询条件
-                name: null,
-                dealPinTotal: null,
+                branchName: null,
+                dataType: null,
+                anyMatch:null,
                 pageNum: 1,
                 pageSize: 10
             },
             listQueryExcel: {//导出excel条件
-                name: null,
-                dealPinTotal: null
+                branchName: null,
+                dataType: null,
+                anyMatch:null
             },
             list: null,
             total: null,
@@ -148,18 +154,9 @@ export default {
             multipleSelection: [],
             //导出excel
             excel_name: "数据.xls",
-            excel_fields: {
-                "姓名": "name",    //常规字段
-                "用户名": "username",
-                "所属组织": "organization",
-                "权限": "auth",
-            },
-            excel_data: [{
-                name: '杰米',
-                username: 'admin2',
-                organization: '地球村',
-                auth: '超级管理员'
-            }]
+            excel_fields: {},
+            excel_data: [],
+            tablename: "部门"//表头测试动态赋值
         }
     },
     created() {
@@ -176,8 +173,9 @@ export default {
                 this.pageSize = response.data.pageSize;
             });
             // 用于查询当前页面查询条件（去掉分页）的数据，并存储到导出excel的数据中
-            this.listQueryExcel.name = this.listQuery.name;
-            this.listQueryExcel.dealPinTotal = this.listQuery.dealPinTotal;
+            this.listQueryExcel.branchName = this.listQuery.branchName;
+            this.listQueryExcel.dataType = this.listQuery.dataType;
+            this.listQueryExcel.anyMatch = this.listQuery.anyMatch;
             fetchList(this.listQueryExcel).then(response => {
                 this.excel_fields = {"日期": "date","部门": "branchName","数据类型": "dataType","用户": "user","用户同比": "userTongbi",
                                      "母婴大盘用户数": "dapan","部门用户占比母婴大盘": "branchDapanZhanbi",
