@@ -4,21 +4,22 @@
             <div>
                 <i class="el-icon-search"></i>
                 <span>筛选搜索</span>
-                <el-button style="float: right" @click="searchBrandList(0)" type="primary" size="small">
+                <el-button style="float: right" @click="searchBrandList()" type="primary" size="small">
                     查询结果
                 </el-button>
             </div>
             <div style="margin-top: 15px">
                 <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
                     <el-form-item label="部门名称：">
-                        <el-input style="width: 203px" v-model="listQuery.branchName" placeholder="部门名称/关键字"></el-input>
+                        <el-input style="width: 203px" v-model="listQuery.branchName" placeholder="部门名称/模糊查询">
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="数据类型：">
-                        <el-input style="width: 203px" v-model="listQuery.dataType" placeholder="数据类型/关键字">
+                        <el-input style="width: 203px" v-model="listQuery.dataType" placeholder="数据类型/模糊查询">
                         </el-input>
                     </el-form-item>
                     <el-form-item label="模糊查询：">
-                        <el-input style="width: 203px" v-model="listQuery.anyMatch" placeholder="模糊条件/关键字">
+                        <el-input style="width: 203px" v-model="listQuery.anyMatch" placeholder="日期/部门名称/数据类型">
                         </el-input>
                     </el-form-item>
                 </el-form>
@@ -27,9 +28,10 @@
         <el-card class="operate-container" shadow="never">
             <i class="el-icon-tickets"></i>
             <span>数据列表</span>
+            <el-button size="mini" @click="executeExcelResult()">执行</el-button>
             <!--导出excel表格-->
             <download-excel class="btn-add" :data="excel_data" :fields="excel_fields" :name="excel_name">
-                <el-button size="mini" @click="searchBrandList(1)">导出EXCEL</el-button>
+                <el-button size="mini">导出EXCEL</el-button>
             </download-excel>
         </el-card>
         <div class="table-container">
@@ -39,7 +41,7 @@
                 <el-table-column label="编号" width="100" v-if="false" align="center">
                     <template slot-scope="scope">{{ scope.row.id }}</template>
                 </el-table-column>
-                <el-table-column label="日期"  width="100" align="center">
+                <el-table-column label="日期" width="100" align="center">
                     <template slot-scope="scope">{{ scope.row.date }}</template>
                 </el-table-column>
                 <el-table-column :label="tablename" width="100" align="center">
@@ -53,133 +55,134 @@
                 </el-table-column>
                 <el-table-column label="用户同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.userTongbi < '0' ? 'color-danger':''" ><!--自定义颜色，颜色维护在src\styles\index.scss-->
+                        <div :class="scope.row.userTongbi < '0' ? 'color-danger' : ''">
+                            <!--自定义颜色，颜色维护在src\styles\index.scss-->
                             {{ scope.row.userTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="母婴大盘用户数" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.dapan < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.dapan < '0' ? 'color-danger' : ''">
                             {{ scope.row.dapan }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="部门用户占比母婴大盘" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.branchDapanZhanbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.branchDapanZhanbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.branchDapanZhanbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="成交金额" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.chengjiaojine < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.chengjiaojine < '0' ? 'color-danger' : ''">
                             {{ scope.row.chengjiaojine }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="成交金额同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.chengjiaojineTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.chengjiaojineTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.chengjiaojineTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="销量" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.xiaoliang < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.xiaoliang < '0' ? 'color-danger' : ''">
                             {{ scope.row.xiaoliang }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="订单" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.dingdan < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.dingdan < '0' ? 'color-danger' : ''">
                             {{ scope.row.dingdan }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="ARPU" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.arpu < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.arpu < '0' ? 'color-danger' : ''">
                             {{ scope.row.arpu }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="ARPU同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.arpuTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.arpuTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.arpuTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="客单价" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.kedanjia < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.kedanjia < '0' ? 'color-danger' : ''">
                             {{ scope.row.kedanjia }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="客单价同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.kedanjiaTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.kedanjiaTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.kedanjiaTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="购买频次" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.goumaipinci < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.goumaipinci < '0' ? 'color-danger' : ''">
                             {{ scope.row.goumaipinci }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="购买频次同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.goumaipinciTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.goumaipinciTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.goumaipinciTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="件单价" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.jiandanjia < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.jiandanjia < '0' ? 'color-danger' : ''">
                             {{ scope.row.jiandanjia }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="件单价同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.jiandanjiaTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.jiandanjiaTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.jiandanjiaTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="人均销量" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.renjunxiaoliang < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.renjunxiaoliang < '0' ? 'color-danger' : ''">
                             {{ scope.row.renjunxiaoliang }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="人均销量同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.renjunxiaoliangTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.renjunxiaoliangTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.renjunxiaoliangTongbi }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="人均件数" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.renjunjianshu < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.renjunjianshu < '0' ? 'color-danger' : ''">
                             {{ scope.row.renjunjianshu }}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="人均件数同比" width="100" align="center">
                     <template slot-scope="scope">
-                        <div :class="scope.row.renjunjianshuTongbi < '0' ? 'color-danger':''" >
+                        <div :class="scope.row.renjunjianshuTongbi < '0' ? 'color-danger' : ''">
                             {{ scope.row.renjunjianshuTongbi }}
                         </div>
                     </template>
@@ -195,7 +198,7 @@
     </div>
 </template>
 <script>
-import { fetchList } from '@/api/excel'
+import { fetchList, executeExcelResultBack } from '@/api/excel'
 
 export default {
     name: 'brandList',
@@ -215,14 +218,14 @@ export default {
             listQuery: {//查询条件
                 branchName: null,
                 dataType: null,
-                anyMatch:null,
+                anyMatch: null,
                 pageNum: 1,
                 pageSize: 10
             },
             listQueryExcel: {//导出excel条件
                 branchName: null,
                 dataType: null,
-                anyMatch:null
+                anyMatch: null
             },
             list: null,
             total: null,
@@ -236,10 +239,10 @@ export default {
         }
     },
     created() {
-        this.getList(0);
+        this.getList();
     },
     methods: {
-        getList(isExcel) {
+        getList() {
             this.listLoading = true;
             fetchList(this.listQuery).then(response => {
                 this.listLoading = false;
@@ -253,15 +256,17 @@ export default {
             this.listQueryExcel.dataType = this.listQuery.dataType;
             this.listQueryExcel.anyMatch = this.listQuery.anyMatch;
             fetchList(this.listQueryExcel).then(response => {
-                this.excel_fields = {"日期": "date","部门": "branchName","数据类型": "dataType","用户": "user","用户同比": "userTongbi",
-                                     "母婴大盘用户数": "dapan","部门用户占比母婴大盘": "branchDapanZhanbi",
-                                     "成交金额": "chengjiaojine","成交金额同比": "chengjiaojineTongbi",
-                                     "销量": "xiaoliang","订单": "dingdan","ARPU": "arpu","ARPU同比": "arpuTongbi",
-                                     "客单价": "kedanjia","客单价同比": "kedanjiaTongbi","购买频次": "goumaipinci",
-                                     "购买频次同比": "goumaipinciTongbi","件单价": "jiandanjia",
-                                     "件单价同比": "jiandanjiaTongbi","人均销量": "renjunxiaoliang",
-                                     "人均销量同比": "renjunxiaoliangTongbi","人均件数": "renjunjianshu",
-                                     "人均件数同比": "renjunjianshuTongbi"};
+                this.excel_fields = {
+                    "日期": "date", "部门": "branchName", "数据类型": "dataType", "用户": "user", "用户同比": "userTongbi",
+                    "母婴大盘用户数": "dapan", "部门用户占比母婴大盘": "branchDapanZhanbi",
+                    "成交金额": "chengjiaojine", "成交金额同比": "chengjiaojineTongbi",
+                    "销量": "xiaoliang", "订单": "dingdan", "ARPU": "arpu", "ARPU同比": "arpuTongbi",
+                    "客单价": "kedanjia", "客单价同比": "kedanjiaTongbi", "购买频次": "goumaipinci",
+                    "购买频次同比": "goumaipinciTongbi", "件单价": "jiandanjia",
+                    "件单价同比": "jiandanjiaTongbi", "人均销量": "renjunxiaoliang",
+                    "人均销量同比": "renjunxiaoliangTongbi", "人均件数": "renjunjianshu",
+                    "人均件数同比": "renjunjianshuTongbi"
+                };
                 this.excel_data = response.data.list;
             });
         },
@@ -339,9 +344,19 @@ export default {
             this.listQuery.pageNum = val;
             this.getList();
         },
-        searchBrandList(isExcel) {
+        searchBrandList() {
             this.listQuery.pageNum = 1;
-            this.getList(isExcel);
+            this.getList();
+        },
+        // 处理导入的数据，计算并汇总成最终结果
+        executeExcelResult() {
+            executeExcelResultBack(null).then(response => {
+                this.$message({
+                    message: '提交成功',
+                    type: 'success',
+                    duration: 1000
+                });
+            });
         },
         handleBatchOperate() {
             console.log(this.multipleSelection);

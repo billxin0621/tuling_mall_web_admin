@@ -14,10 +14,6 @@
         </el-upload>
       </el-form-item>
     </el-form>
-    <!--导出用户信息excel表格-->
-    <!--<download-excel class="export-excel-wrapper" :data="excel_data" :fields="excel_fields" :name="excel_name">
-      <el-button type="primary" size="small">导出EXCEL</el-button>
-    </download-excel>-->
   </div>
 </template>
  
@@ -40,29 +36,6 @@ export default {
       fullscreenLoading: false, // 加载中
       desc: "",
       loadingText: "正在执行...",
-      //导出excel
-      excel_name:"示例excel.xls",
-      excel_fields: {
-        "姓名": "name",    //常规字段
-        "用户名": "username",
-        "所属组织": "organization",
-        "权限": "auth",
-      },
-      excel_data: [
-        //写死，后续可通过接口进行传值
-        {
-          name: '汤姆',
-          username: 'admin1',
-          organization: '地球村',
-          auth: '超级管理员'
-        },
-        {
-          name: '杰米',
-          username: 'admin2',
-          organization: '地球村',
-          auth: '超级管理员'
-        }
-      ],
       json_meta: [
         [
           {
@@ -119,8 +92,8 @@ export default {
           var data = ev.target.result,
             workbook = XLSX.read(data, {
               type: "binary",
-            }), // 以二进制流方式读取得到整份excel表格对象
-            persons = [];
+            }) // 以二进制流方式读取得到整份excel表格对象
+          var excelDataRead = {};
         } catch (e) {
           this.$message.error("文件类型不正确");
           this.dataForm.loading = false;
@@ -131,20 +104,54 @@ export default {
         }
         // 表格的表格范围，可用于判断表头是否数量是否正确
         var fromTo = "";
-        // 遍历每张表读取
+        // 遍历每张表读取，先定义一个开始位置1
+        var sheetIndex = 1;
         for (var sheet in workbook.Sheets) {
           if (workbook.Sheets.hasOwnProperty(sheet)) {
             fromTo = workbook.Sheets[sheet]["!ref"];
-            //这是处理好的数据
-            persons = persons.concat(
+            //这是处理好的数据，数组形式，已转换为json格式(每一个sheet)
+            let excelSheetRead = [];
+            excelSheetRead = excelSheetRead.concat(
               XLSX.utils.sheet_to_json(workbook.Sheets[sheet])
             );
-            break; // 如果只取第一张表，就取消注释这行
+
+            // let sheetIndex = sheetBegin % 10;// sheetBegin与10取余，目的是
+            switch (sheetIndex) {// 判断此时是第几个sheet，目前只支持9个sheet
+              case 1:
+                excelDataRead.sheet1 = excelSheetRead;
+                break;
+              case 2:
+                excelDataRead.sheet2 = excelSheetRead;
+                break;
+              case 3:
+                excelDataRead.sheet3 = excelSheetRead;
+                break;
+              case 4:
+                excelDataRead.sheet4 = excelSheetRead;
+                break;
+              case 5:
+                excelDataRead.sheet5 = excelSheetRead;
+                break;
+              case 6:
+                excelDataRead.sheet6 = excelSheetRead;
+                break;
+              case 7:
+                excelDataRead.sheet7 = excelSheetRead;
+                break;
+              case 8:
+                excelDataRead.sheet8 = excelSheetRead;
+                break;
+              case 9:
+                excelDataRead.sheet9 = excelSheetRead;
+                break;
+            }
+            sheetIndex = sheetIndex + 1;
+            // break; // 如果只取第一张表，就取消注释这行
           }
         }
         this.loadingText = "正在上传...";
         //请求后台
-        insertBranchData(persons).then(response => {
+        insertBranchData(excelDataRead).then(response => {
           this.$message({
             message: '提交成功',
             type: 'success',

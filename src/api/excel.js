@@ -1,11 +1,11 @@
 import request from '@/utils/request'
-export function executeExcel(data) {
-  return request({
-    url:'/brand/executeExcel',
-    method:'post',
-    data:data
-  })
-}
+// export function executeExcel(data) {
+//   return request({
+//     url:'/brand/executeExcel',
+//     method:'post',
+//     data:data
+//   })
+// }
 export function insertBranchData(data) {
   return request({
     url:'/branchData/insertBranchData',
@@ -18,5 +18,12 @@ export function fetchList(params) {
     url:'/branchData/list',
     method:'get',
     params:params
+  })
+}
+export function executeExcelResultBack(params) {
+  return request({
+    url:'/branchData/executeExcelResultBack',
+    method:'post',
+    data:data
   })
 }
