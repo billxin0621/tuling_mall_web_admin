@@ -148,6 +148,12 @@ export const asyncRouterMap = [
         name: 'uploadExcel',
         component: () => import('@/views/excel/showBrand/uploadExcel'),
         meta: {title: '表格数据上传', icon: 'order-setting'}
+      },
+      {
+        path: 'echartsList',
+        name: 'echartsList',
+        component: () => import('@/views/excel/showBrand/echartsList'),
+        meta: {title: '折线数据展示', icon: 'order-setting'}
       }
     ]
   },

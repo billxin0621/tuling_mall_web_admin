@@ -11,6 +11,7 @@
             element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">上传</el-button>
           <!-- <div slot="tip" class="el-upload__tip">只能上传Excel文件</div> -->
           <el-button type="primary" @click="cancleUpload" size="small">取消</el-button>
+          <el-button :loading="executeLoading" style="margin-left: 10px" type="success" size="small" @click="executeExcelResult()">执行</el-button>
         </el-upload>
       </el-form-item>
     </el-form>
@@ -19,7 +20,7 @@
  
 <script>
 import XLSX from "xlsx";
-import { insertBranchData } from '@/api/excel'//调用后台的接口，封装在此
+import { insertBranchData, executeExcelResultBack } from '@/api/excel'//调用后台的接口，封装在此
 import Vue from "vue";
 
 export default {
@@ -36,6 +37,7 @@ export default {
       fullscreenLoading: false, // 加载中
       desc: "",
       loadingText: "正在执行...",
+      executeLoading: false,
       json_meta: [
         [
           {
@@ -162,6 +164,22 @@ export default {
       }
       this.dataForms.loading = false;
       this.fullscreenLoading = false;
+    },
+    // 处理导入的数据，计算并汇总成最终结果
+    executeExcelResult() {
+        let dataTest = {};
+        this.executeLoading = true;
+        console.log("000");
+        executeExcelResultBack(dataTest).then(response => {
+            this.$message({
+                message: '提交成功',
+                type: 'success',
+                duration: 1000
+            });
+            console.log("111");
+        });
+        console.log("333");
+        this.executeLoading = false;
     }
   }
 }

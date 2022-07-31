@@ -1,5 +1,6 @@
 <template> 
     <div class="app-container">
+        <!-- 搜索区 -->
         <el-card class="filter-container" shadow="never">
             <div>
                 <i class="el-icon-search"></i>
@@ -25,17 +26,18 @@
                 </el-form>
             </div>
         </el-card>
+        <!-- 表格上方功能按钮区 -->
         <el-card class="operate-container" shadow="never">
             <i class="el-icon-tickets"></i>
             <span>数据列表</span>
-            <el-button size="mini" @click="executeExcelResult()">执行</el-button>
-            <!--导出excel表格-->
+            <!--导出excel表格按钮-->
             <download-excel class="btn-add" :data="excel_data" :fields="excel_fields" :name="excel_name">
                 <el-button size="mini">导出EXCEL</el-button>
             </download-excel>
         </el-card>
+        <!-- 表格数据展示 -->
         <div class="table-container">
-            <el-table ref="brandTable" :data="list" style="width: 100%" @selection-change="handleSelectionChange"
+            <el-table ref="brandTable" :data="tableDataList" style="width: 100%" @selection-change="handleSelectionChange"
                 v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
                 <el-table-column label="编号" width="100" v-if="false" align="center">
@@ -189,6 +191,7 @@
                 </el-table-column>
             </el-table>
         </div>
+        <!-- 表格当前页及每页大小调整 -->
         <div class="pagination-container">
             <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
                 layout="total, sizes,prev, pager, next,jumper" :page-size="listQuery.pageSize" :page-sizes="[5, 10, 15]"
@@ -198,37 +201,30 @@
     </div>
 </template>
 <script>
-import { fetchList, executeExcelResultBack } from '@/api/excel'
+import { fetchList } from '@/api/excel'
 
 export default {
-    name: 'brandList',
+    // name: 'brandList',
     data() {
         return {
-            operates: [
-                {
-                    label: "显示品牌",
-                    value: "showBrand"
-                },
-                {
-                    label: "隐藏品牌",
-                    value: "hideBrand"
-                }
-            ],
-            operateType: null,
-            listQuery: {//查询条件
+            //表格数据查询条件
+            listQuery: {
                 branchName: null,
                 dataType: null,
                 anyMatch: null,
                 pageNum: 1,
                 pageSize: 10
             },
-            listQueryExcel: {//导出excel条件
+            //导出excel条件
+            listQueryExcel: {
                 branchName: null,
                 dataType: null,
                 anyMatch: null
             },
-            list: null,
+            //表格展示数据
+            tableDataList: null,
             total: null,
+            //数据加载显示loadling
             listLoading: true,
             multipleSelection: [],
             //导出excel
@@ -246,7 +242,7 @@ export default {
             this.listLoading = true;
             fetchList(this.listQuery).then(response => {
                 this.listLoading = false;
-                this.list = response.data.list;
+                this.tableDataList = response.data.list;
                 this.total = response.data.total;
                 this.totalPage = response.data.totalPage;
                 this.pageSize = response.data.pageSize;
@@ -335,6 +331,7 @@ export default {
                 }
             });
         },
+        // 表格当前页及每页大小调用方法
         handleSizeChange(val) {
             this.listQuery.pageNum = 1;
             this.listQuery.pageSize = val;
@@ -347,16 +344,6 @@ export default {
         searchBrandList() {
             this.listQuery.pageNum = 1;
             this.getList();
-        },
-        // 处理导入的数据，计算并汇总成最终结果
-        executeExcelResult() {
-            executeExcelResultBack(null).then(response => {
-                this.$message({
-                    message: '提交成功',
-                    type: 'success',
-                    duration: 1000
-                });
-            });
         },
         handleBatchOperate() {
             console.log(this.multipleSelection);

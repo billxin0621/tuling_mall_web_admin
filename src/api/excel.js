@@ -20,7 +20,7 @@ export function fetchList(params) {
     params:params
   })
 }
-export function executeExcelResultBack(params) {
+export function executeExcelResultBack(data) {
   return request({
     url:'/branchData/executeExcelResultBack',
     method:'post',

@@ -17,6 +17,9 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import JsonExcel from 'vue-json-excel'
 
+import * as echarts from "echarts" 
+
+
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
 
