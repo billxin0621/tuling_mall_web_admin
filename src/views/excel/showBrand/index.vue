@@ -19,9 +19,15 @@
                         <el-input style="width: 203px" v-model="listQuery.dataType" placeholder="数据类型/模糊查询">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="模糊查询：">
+                    <!--<el-form-item label="模糊查询：">
                         <el-input style="width: 203px" v-model="listQuery.anyMatch" placeholder="日期/部门名称/数据类型">
                         </el-input>
+                    </el-form-item>-->
+                    <el-form-item label="日期：">
+                        <el-date-picker v-model="dateRange" type="datetimerange" :picker-options="pickerOptions"
+                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right"
+                            value-format="yyyy-MM-dd" @change="dateChange">
+                        </el-date-picker>
                     </el-form-item>
                 </el-form>
             </div>
@@ -37,8 +43,8 @@
         </el-card>
         <!-- 表格数据展示 -->
         <div class="table-container">
-            <el-table ref="brandTable" :data="tableDataList" style="width: 100%" @selection-change="handleSelectionChange"
-                v-loading="listLoading" border>
+            <el-table ref="brandTable" :data="tableDataList" style="width: 100%"
+                @selection-change="handleSelectionChange" v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
                 <el-table-column label="编号" width="100" v-if="false" align="center">
                     <template slot-scope="scope">{{ scope.row.id }}</template>
@@ -212,6 +218,8 @@ export default {
                 branchName: null,
                 dataType: null,
                 anyMatch: null,
+                dateStart:null,
+                dateEnd:null,
                 pageNum: 1,
                 pageSize: 10
             },
@@ -219,7 +227,9 @@ export default {
             listQueryExcel: {
                 branchName: null,
                 dataType: null,
-                anyMatch: null
+                anyMatch: null,
+                dateStart:null,
+                dateEnd:null
             },
             //表格展示数据
             tableDataList: null,
@@ -231,13 +241,48 @@ export default {
             excel_name: "数据.xls",
             excel_fields: {},
             excel_data: [],
-            tablename: "部门"//表头测试动态赋值
+            tablename: "部门",//表头测试动态赋值
+            // 日期框
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
+            },
+            dateRange:[]
         }
     },
     created() {
         this.getList();
     },
     methods: {
+        dateChange(){
+            if(this.dateRange.length == 2){
+                this.listQuery.dateStart = this.dateRange[0];
+                this.listQuery.dateEnd = this.dateRange[1];
+            }
+        },
         getList() {
             this.listLoading = true;
             fetchList(this.listQuery).then(response => {
@@ -251,6 +296,8 @@ export default {
             this.listQueryExcel.branchName = this.listQuery.branchName;
             this.listQueryExcel.dataType = this.listQuery.dataType;
             this.listQueryExcel.anyMatch = this.listQuery.anyMatch;
+            this.listQueryExcel.dateStart = this.listQuery.dateStart;
+            this.listQueryExcel.dateEnd = this.listQuery.dateEnd;
             fetchList(this.listQueryExcel).then(response => {
                 this.excel_fields = {
                     "日期": "date", "部门": "branchName", "数据类型": "dataType", "用户": "user", "用户同比": "userTongbi",
