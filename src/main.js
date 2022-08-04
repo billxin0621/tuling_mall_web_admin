@@ -23,7 +23,7 @@ import * as echarts from "echarts"
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
 
-Vue.component('downloadExcel', JsonExcel)
+Vue.component('downloadExcel', JsonExcel)//全局组件，不用使用驼峰命名，尤其不要有两个大写字母
 
 Vue.config.productionTip = false
 
