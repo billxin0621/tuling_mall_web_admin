@@ -15,13 +15,19 @@
         </el-upload>
       </el-form-item>
     </el-form>
+    <echartsListVue></echartsListVue>
   </div>
+
+  
 </template>
  
 <script>
 import XLSX from "xlsx";
 import { insertBranchData, executeExcelResultBack } from '@/api/excel'//调用后台的接口，封装在此
 import Vue from "vue";
+import echartsListVue from "./echartsList";//引入vue文件
+
+Vue.component('echartsListVue', echartsListVue)//vue文件注册为组件
 
 export default {
   props: {

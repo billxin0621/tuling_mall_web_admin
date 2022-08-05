@@ -7,6 +7,7 @@
 <script>
 import * as echarts from 'echarts';
 export default {
+    name: 'echartsList',
     data() {
         return {
             name: "ceshi",
@@ -48,7 +49,7 @@ export default {
                     {
                         type: 'category',
                         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'aa'
-                        , 'bb', 'cc', 'dd', 'ee', 'ff'],
+                            , 'bb', 'cc', 'dd', 'ee', 'ff'],
                         axisPointer: {
                             type: 'shadow'
                         }
