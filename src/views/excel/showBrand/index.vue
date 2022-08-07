@@ -204,10 +204,20 @@
                 :current-page.sync="listQuery.pageNum" :total="total">
             </el-pagination>
         </div>
+        <!-- 表格当前页及每页大小调整 -->
+        <div class="pagination-container">
+            <echartsListVue :xAxisData="xAxisDataToSub" :yAxisData1="yAxisDataToSub1" 
+             :yAxisData2="yAxisDataToSub2" :yAxisData3="yAxisDataToSub3" :yAxisData4="yAxisDataToSub4"></echartsListVue>
+        </div>
+        
     </div>
 </template>
 <script>
+import Vue from "vue";
 import { fetchList } from '@/api/excel'
+import echartsListVue from "./echartsList";//引入vue文件
+
+Vue.component('echartsListVue', echartsListVue)//vue文件注册为组件
 
 export default {
     // name: 'brandList',
@@ -234,6 +244,13 @@ export default {
             //表格展示数据
             tableDataList: null,
             total: null,
+            //图表横坐标
+            xAxisDataToSub:[],
+            //图表纵坐标
+            yAxisDataToSub1:[],
+            yAxisDataToSub2:[],
+            yAxisDataToSub3:[],
+            yAxisDataToSub4:[],
             //数据加载显示loadling
             listLoading: true,
             multipleSelection: [],
@@ -291,6 +308,27 @@ export default {
                 this.total = response.data.total;
                 this.totalPage = response.data.totalPage;
                 this.pageSize = response.data.pageSize;
+
+                //图表数据赋值
+                let tempX = [];
+                let tempY1 = [];
+                let tempY2 = [];
+                let tempY3 = [];
+                let tempY4 = [];
+                for(var i = 0; i < response.data.list.length; i++){
+                    // console.log(response.data.list[i].date);
+                    tempX[i] = response.data.list[i].date;
+                    tempY1[i] = response.data.list[i].user;
+                    tempY2[i] = response.data.list[i].dingdan;
+                    tempY3[i] = response.data.list[i].user;
+                    tempY4[i] = response.data.list[i].dingdan;
+                    // console.log(this.xAxisDataToSub[i]);
+                }
+                this.xAxisDataToSub = tempX;
+                this.yAxisDataToSub1 = tempY1;
+                this.yAxisDataToSub2 = tempY2;
+                this.yAxisDataToSub3 = tempY3;
+                this.yAxisDataToSub4 = tempY4;
             });
             // 用于查询当前页面查询条件（去掉分页）的数据，并存储到导出excel的数据中
             this.listQueryExcel.branchName = this.listQuery.branchName;

@@ -1,6 +1,6 @@
 <!--HTML的代码--><!--宽高自己改的哈，这是我写好的代码 我需要600 × 260的  你们看着改-->
 <template>
-    <div ref="RefMain" style="width: 1500px;height:400px;"></div>
+    <div ref="RefMain" style="width: 1200px;height:400px;"></div>
 </template>
 
 
@@ -8,6 +8,7 @@
 import * as echarts from 'echarts';
 export default {
     name: 'echartsList',
+    props: ['xAxisData','yAxisData1','yAxisData2','yAxisData3','yAxisData4'],//接收父页面传过来的值
     data() {
         return {
             name: "ceshi",
@@ -16,6 +17,11 @@ export default {
     },
     mounted() {        //调用方法 初始化
         this.initEchats();
+    },
+    watch:{
+        xAxisData(newData, oldData){
+            this.initEchats();
+        }
     },
     methods: {
         initEchats() {
@@ -48,8 +54,8 @@ export default {
                 xAxis: [
                     {
                         type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'aa'
-                            , 'bb', 'cc', 'dd', 'ee', 'ff'],
+                        // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'aa', 'bb', 'cc', 'dd', 'ee', this.ceshi3],
+                        data: this.xAxisData,
                         axisPointer: {
                             type: 'shadow'
                         }
@@ -60,8 +66,8 @@ export default {
                         type: 'value',
                         name: 'Precipitation',
                         min: 0,
-                        max: 250,
-                        interval: 50,
+                        max: 2000000,
+                        interval: 400000,
                         axisLabel: {
                             formatter: '{value} ml'
                         }
@@ -87,9 +93,7 @@ export default {
                                 return value + ' ml';
                             }
                         },
-                        data: [
-                            2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-                        ]
+                        data: this.yAxisData1
                     },
                     {
                         name: 'Precipitation',
@@ -99,9 +103,7 @@ export default {
                                 return value + ' ml';
                             }
                         },
-                        data: [
-                            2.6, 5.9, 9.0, 26.4, 28.7, 200.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-                        ]
+                        data: this.yAxisData2
                     },
                     {
                         name: 'Temperature',
@@ -112,7 +114,7 @@ export default {
                                 return value + ' ml';
                             }
                         },
-                        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                        data: this.yAxisData3
                     },
                     {
                         name: 'Temperature1',
@@ -123,7 +125,7 @@ export default {
                                 return value + ' ml';
                             }
                         },
-                        data: [2.6, 5.9, 9.0, 26.4, 28.7, 200.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                        data: this.yAxisData4
                     }
                 ]
             });

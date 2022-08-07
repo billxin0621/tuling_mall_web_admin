@@ -15,7 +15,8 @@
         </el-upload>
       </el-form-item>
     </el-form>
-    <echartsListVue></echartsListVue>
+    <echartsListVue :xAxisData="xAxisDataToSub"></echartsListVue>
+    <el-button style="margin-left: 10px" type="success" size="small" @click="executeXAxisDataToSub()">测试X</el-button>
   </div>
 
   
@@ -36,6 +37,7 @@ export default {
   },
   data() {
     return {
+      xAxisDataToSub: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'aa', 'bb', 'cc', 'dd', 'ee', 'ffg'],//向组件传的值，x横轴坐标
       dataForms: {
         barCode: "",
         loading: false,
@@ -186,6 +188,10 @@ export default {
         });
         console.log("333");
         this.executeLoading = false;
+    },
+    executeXAxisDataToSub() {
+      this.xAxisDataToSub = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'aa', 'bb', 'cc', 'dd', 'ee', 'ffg', 'ggg'];
+      console.log(this.xAxisDataToSub);
     }
   }
 }
